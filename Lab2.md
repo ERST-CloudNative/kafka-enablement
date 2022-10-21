@@ -111,7 +111,7 @@ Topic: lab-2    TopicId: Hso8PfrASnqwSlqg7_w8NA PartitionCount: 3       Replicat
 6
 ```
 
-上面的结果看起来消息失序了，那么失序的原因是什么，我们可以通过读每个partition的消息窥见其原理。
+上面的结果看起来消息失序了，那么失序的原因是什么，我们可以通过消费每个partition的消息窥见其原理。
 
 ```
 [root@kafka-01 kafka-3.2.3]#  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --partition 0 --from-beginning
@@ -140,3 +140,154 @@ Topic: lab-2    TopicId: oPXTeDrQS4OdoM4gjFDhpg PartitionCount: 3       Replicat
 ```
 [root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic lab-2
 ```
+
+## 3. consumer groups
+
+### 3.1 查看消费组
+
+打开三个终端，依次设置如下：
+
+终端-1 发送消息
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic lab-2
+>1
+>2
+>3
+>4
+>5
+>
+```
+
+终端-2 消费消息
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2
+1
+2
+3
+4
+5
+
+```
+终端-3 查看消费组
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+console-consumer-10591
+```
+
+### 3.2 消费多个Topic
+
+打开三个终端，依次设置如下：
+
+终端-1 创建Kafka Topic cg1,并分别发送两条消息
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic cg1 --partitions 3 --replication-factor 1
+Created topic cg1.
+
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic cg1
+>1
+>2
+
+```
+终端-2 创建Kafka Topic cg2,并分别发送两条消息
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic cg2 --partitions 3 --replication-factor 1
+Created topic cg2.
+
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic cg2
+>3
+>4
+```
+
+
+终端-3 使用白名单机制，消费这两个Topic的消息
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --consumer-property group.id=consumer-multi-topic --whitelist "cg1|cg2"
+1
+2
+3
+4
+```
+
+### 3.3 单播
+
+当生产者发送一条信息时，每次消费组中只有一个消费者能收到信息。
+
+
+打开三个终端，依次设置如下：
+
+终端-1 消费者-1
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --consumer-property group.id=single-consumer-group
+
+
+```
+
+终端-2 消费者-2
+
+```
+[root@kafka-01 kafka-3.2.3]#  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --consumer-property group.id=single-consumer-group
+
+
+```
+
+终端-3 生产者，并依次输入以下数据
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic lab-2
+>1
+>2
+>3
+>4
+>5
+>6
+>7
+>8
+>9
+>
+```
+
+
+#### 3.4 多播
+
+一条消息可以被多个消费者消费的模式
+
+打开三个终端，依次设置如下：
+
+终端-1 消费者-1
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --consumer-property group.id=multi-consumer-group-1
+
+```
+
+终端-2 消费者-2
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --consumer-property group.id=multi-consumer-group-2
+
+```
+
+终端-3 生产者，并一次输入以下数据
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic lab-2
+>1
+>2
+>3
+>4
+>5
+>6
+>7
+>8
+>9
+>
+```
+
+
