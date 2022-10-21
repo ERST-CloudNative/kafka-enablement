@@ -5,7 +5,34 @@
 
 通过Zookeeper查看集群信息
 
+
 ```
+[root@kafka-01 ~]# cd kafka-enablement/environment/kafka-3.2.3/
+[root@kafka-01 kafka-3.2.3]# bin/zookeeper-shell.sh localhost:2181
+Connecting to localhost:2181
+Welcome to ZooKeeper!
+JLine support is disabled
+
+WATCHER::
+
+WatchedEvent state:SyncConnected type:None path:null
+```
+
+依次输入以下命令行查看集群信息
+
+```
+ls /
+get /controller
+ls /brokers
+ls /brokers/ids
+get /brokers/ids/0
+ls /brokers/topics
+```
+
+参考示例结果如下：
+
+```
+[root@kafka-01 ~]# cd kafka-enablement/environment/kafka-3.2.3/
 [root@kafka-01 kafka-3.2.3]# bin/zookeeper-shell.sh localhost:2181
 Connecting to localhost:2181
 Welcome to ZooKeeper!
@@ -33,3 +60,4 @@ ls /brokers/topics
 []
 
 ```
+
