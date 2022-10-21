@@ -100,7 +100,7 @@ Topic: lab-2    TopicId: Hso8PfrASnqwSlqg7_w8NA PartitionCount: 3       Replicat
 
 2.3 接收消息
 
-读整个topic的消息
+消费整个topic的消息
 ```
 [root@kafka-01 kafka-3.2.3]#  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --from-beginning
 3
