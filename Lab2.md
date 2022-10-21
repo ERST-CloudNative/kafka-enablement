@@ -61,3 +61,82 @@ ls /brokers/topics
 
 ```
 
+
+## 2. Topic
+
+2.1 创建Kafka Topic
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic lab-2 --partitions 3 --replication-factor 1
+Created topic lab-2.
+
+```
+
+查看Kafka Topic 详情
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --list --topic lab-2
+lab-2
+
+[root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic lab-2
+Topic: lab-2    TopicId: Hso8PfrASnqwSlqg7_w8NA PartitionCount: 3       ReplicationFactor: 1    Configs: segment.bytes=104857600
+        Topic: lab-2    Partition: 0    Leader: 2       Replicas: 2     Isr: 2
+        Topic: lab-2    Partition: 1    Leader: 1       Replicas: 1     Isr: 1
+        Topic: lab-2    Partition: 2    Leader: 0       Replicas: 0     Isr: 0
+
+```
+
+2.2 发送消息
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic lab-2
+>1
+>2
+>3
+>4
+>5
+>6
+```
+
+2.3 接收消息
+
+读整个topic的消息
+```
+[root@kafka-01 kafka-3.2.3]#  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --from-beginning
+3
+4
+1
+2
+5
+6
+```
+
+上面的结果看起来消息失序了，那么失序的原因是什么，我们可以通过读每个partition的消息窥见其原理。
+
+```
+[root@kafka-01 kafka-3.2.3]#  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --partition 0 --from-beginning
+1
+2
+5
+[root@kafka-01 kafka-3.2.3]#  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --partition 1 --from-beginning
+3
+4
+[root@kafka-01 kafka-3.2.3]#  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --partition 2 --from-beginning
+6
+```
+
+查看Kafka Topic lab-2的详细信息
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic lab-2
+Topic: lab-2    TopicId: oPXTeDrQS4OdoM4gjFDhpg PartitionCount: 3       ReplicationFactor: 1    Configs: segment.bytes=104857600
+        Topic: lab-2    Partition: 0    Leader: 1       Replicas: 1     Isr: 1
+        Topic: lab-2    Partition: 1    Leader: 0       Replicas: 0     Isr: 0
+        Topic: lab-2    Partition: 2    Leader: 2       Replicas: 2     Isr: 2
+```
+
+2.4 删除Kafka Topic
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic lab-2
+```
