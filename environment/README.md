@@ -20,7 +20,7 @@
 [root@kafka-01 environment]# ls
 configs       connect-1.sh  environment.sh  kafka-0.sh  kafka-2.sh   README.md  zookeeper-0.sh  zookeeper-2.sh
 connect-0.sh  connect-2.sh  include.sh      kafka-1.sh  kafka-3.2.3  ssl        zookeeper-1.sh
-``
+```
 
 部署Zookeeper集群
 
