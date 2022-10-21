@@ -15,7 +15,7 @@
 获取实验素材
 
 ```
-[root@kafka-01 ~]# git@github.com:ERST-CloudNative/kafka-enablement.git
+[root@kafka-01 ~]# git clone https://github.com/ERST-CloudNative/kafka-enablement.git
 [root@kafka-01 ~]# cd kafka-enablement/environment/
 [root@kafka-01 environment]# ls
 configs       connect-1.sh  environment.sh  kafka-0.sh  kafka-2.sh   README.md  zookeeper-0.sh  zookeeper-2.sh
