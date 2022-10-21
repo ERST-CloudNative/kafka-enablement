@@ -1,27 +1,56 @@
-# Environment
+# Lab 1
 
-## Prerequsites
+## 环境准备
 
-Following software needs to be installed on your computer to use this environment:
+在开始正式实验之前，需要在您的VM上安装以下软件:
 
 * Java 8
 * OpenSSL
 * CFSSL
 
-OpenSSL and CFSSL is needed only if you want to generate your own keys.
+其中，如果需要重新产生自己证书，则OpenSSL 和 CFSSL是需要安装的， 默认SSL证书配置已经在environment目录中提供，不需要再安装这两个工具.
 
-## SSL keys
+## Lab实操
 
-SSL keys used by the installation can be found in `ssl/keys`. To generate new set of keys, run the `generate.sh` script. To delete the existing keys, run the `clean.sh` script. Both scripts can be found in `ssl`.
+获取实验素材
 
-## Zookeeper
+```
+[root@kafka-01 ~]# git@github.com:ERST-CloudNative/kafka-enablement.git
+[root@kafka-01 ~]# cd kafka-enablement/environment/
+[root@kafka-01 environment]# ls
+configs       connect-1.sh  environment.sh  kafka-0.sh  kafka-2.sh   README.md  zookeeper-0.sh  zookeeper-2.sh
+connect-0.sh  connect-2.sh  include.sh      kafka-1.sh  kafka-3.2.3  ssl        zookeeper-1.sh
+``
 
-First you need to start Zookeeper. To start Zookeeper nodes, use the helper scripts `zookeeper-0.sh`, `zookeeper-1.sh` and `zookeeper-2.sh`. Zookeeper is using the Kafka binaries. It is secured using SASL authentication. Zookeeper data directory is stored in `tmp`. For more details on configuration and starting Zookeeper, have a look at the startup scripts or at the config files in `configs/zookeeper`.
+部署Zookeeper集群
 
-## Kafka
+```
+[root@kafka-01 environment]# ./zookeeper-0.sh
+Creating myid file
+[root@kafka-01 environment]# ./zookeeper-1.sh
+Creating myid file
+[root@kafka-01 environment]# ./zookeeper-2.sh
+Creating myid file
+```
+部署Kafka集群
 
-Once Zookeeper is running you can start Kafka. Kafka can be staretd using the helper scritps `kafka-0.sh`, `kafka-1.sh` and `kafka-2.sh`. For more details about how to start Kafka and how to configure it see the startup scripts and the configuration files in `configs/kafka`. This Kafka installation has 4 interfaces: Plaintext one (INSECURE), TLS (ENCRYPTED), SASL based (AUTHENTICATED) and a separate interface for replication.
+```
+[root@kafka-01 environment]# ./kafka-0.sh
+[root@kafka-01 environment]# ./kafka-1.sh
+[root@kafka-01 environment]# ./kafka-2.sh
+```
 
-## Kafka Connect
+查看部署情况
 
-Kafka Connect can be started after Kafka brokers are running. It connects to Kafka using SSL (ENCRYPTED interface). It can be staretd using the helper scritps `connect-0.sh`, `connect-1.sh` and `connect-2.sh`. For more details about how to start Kafka Connect and how to configure it see the startup scripts and the configuration files in `configs/connect`.
+```
+[root@kafka-01 environment]# jps
+16401 QuorumPeerMain
+16771 QuorumPeerMain
+30564 Kafka
+26518 Kafka
+32678 Jps
+28731 Kafka
+17148 QuorumPeerMain
+```
+
+
