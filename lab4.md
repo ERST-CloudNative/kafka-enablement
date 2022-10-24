@@ -76,5 +76,3 @@ Topic: lab-4    TopicId: DsrapAjJS0K5WpYdueS9qw PartitionCount: 3       Replicat
 ```
 
 
-bin/kafka-verifiable-producer.sh --bootstrap-server localhost:9092 --topic lab-4 --max-message 100000
-
