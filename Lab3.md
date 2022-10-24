@@ -1,5 +1,81 @@
 # Lab3 集群管理与维护
 
+## 3.1 配置管理-Topic
+
+查看lab-2 topic的当前配置
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092  --describe --entity-type topics --entity-name lab-2
+Dynamic configs for topic lab-2 are:
+```
+
+添加两个配置参数`flush.messages=3,max.message.bytes=20240`
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name lab-2 --alter --add-config flush.messages=3,max.message.bytes=20240
+Completed updating config for topic lab-2.
+```
+
+验证参数是否配置就绪
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092  --describe --entity-type topics --entity-name lab-2
+Dynamic configs for topic lab-2 are:
+  flush.messages=3 sensitive=false synonyms={DYNAMIC_TOPIC_CONFIG:flush.messages=3, DEFAULT_CONFIG:log.flush.interval.messages=9223372036854775807}
+  max.message.bytes=20240 sensitive=false synonyms={DYNAMIC_TOPIC_CONFIG:max.message.bytes=20240, DEFAULT_CONFIG:message.max.bytes=1048588}
+```
+
+删除配置参数
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name lab-2 --alter --delete-config flush.messages,max.message.bytes
+Completed updating config for topic lab-2.
+```
+
+查看配置
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092  --describe --entity-type topics --entity-name lab-2
+Dynamic configs for topic lab-2 are:
+```
+
+
+## 3.2 配置管理-Broker
+
+查看broker 2 的动态配置
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 2 --describe
+Dynamic configs for broker 2 are:
+```
+
+添加配置
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 2 --alter --add-config follower.replication.throttled.rate=10485760,leader.replication.throttled.rate=10485760
+Completed updating config for broker 2.
+```
+查看配置
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 2 --describe
+Dynamic configs for broker 2 are:
+  leader.replication.throttled.rate=10485760 sensitive=false synonyms={DYNAMIC_BROKER_CONFIG:leader.replication.throttled.rate=10485760}
+  follower.replication.throttled.rate=10485760 sensitive=false synonyms={DYNAMIC_BROKER_CONFIG:follower.replication.throttled.rate=10485760}
+```
+
+删除配置
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 2 --alter --delete-config follower.replication.throttled.rate,leader.replication.throttled.rate
+Completed updating config for broker 2.
+```
+
+验证配置已删除
+
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --entity-type brokers --entity-name 2 --describe
+Dynamic configs for broker 2 are:
+```
+
 
 ## 修改Kafka Topic
 
