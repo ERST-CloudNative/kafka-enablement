@@ -109,7 +109,7 @@ get /config/users/loren
 ```
 
 
-## 修改Kafka Topic
+## 3.4 修改Kafka Topic的分区信息
 
 查看Kafka Topic lab-2的配置
 ```
