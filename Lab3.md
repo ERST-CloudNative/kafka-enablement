@@ -77,6 +77,38 @@ Dynamic configs for broker 2 are:
 ```
 
 
+## 3.3 配置管理之客户端/用户级别配置
+
+为用户loren设置限流配置
+```
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --alter --add-config 'producer_byte_rate=1024,consumer_byte_rate=2048' --entity-type useoren
+Completed updating config for user loren.
+```
+
+```
+[root@kafka-01 kafka-3.2.3]# export KAFKA_OPTS="-Djava.security.auth.login.config=../configs/kafka/jaas.config"
+[root@kafka-01 kafka-3.2.3]# bin/zookeeper-shell.sh localhost:2181 --help
+Connecting to localhost:2181
+Welcome to ZooKeeper!
+JLine support is disabled
+
+WATCHER::
+
+WatchedEvent state:SyncConnected type:None path:null
+
+WATCHER::
+
+WatchedEvent state:SaslAuthenticated type:None path:null
+```
+
+查看用户配置
+
+```
+get /config/users/loren
+{"version":1,"config":{"producer_byte_rate":"1024","consumer_byte_rate":"2048"}}
+```
+
+
 ## 修改Kafka Topic
 
 查看Kafka Topic lab-2的配置
