@@ -8,6 +8,7 @@
 
 ```
 [root@kafka-01 ~]# cd kafka-enablement/environment/kafka-3.2.3/
+[root@kafka-01 kafka-3.2.3]# export KAFKA_OPTS="-Djava.security.auth.login.config=../configs/kafka/jaas.config"
 [root@kafka-01 kafka-3.2.3]# bin/zookeeper-shell.sh localhost:2181
 Connecting to localhost:2181
 Welcome to ZooKeeper!
