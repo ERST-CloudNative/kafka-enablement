@@ -2,11 +2,18 @@
 
 ## 4.1 分区Leader平衡
 
+### 场景-1
+
+场景描述：三节点的Kafka集群，遇到某个节点故障停机，这时候kafka集群会自动会进行Leader平衡，选择可用的Leader。但是节点恢复后，需要手动平衡分区Leader,以避免数据存储不均衡。
+
+创建一个3分区2副本的主题: lab-4
 
 ```
 [root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic lab-4 --partitions 3 --replication-factor 2
 Created topic lab-4.
 ```
+
+查看主题信息
 
 ```
 [root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9093 --describe --topic lab-4
@@ -15,6 +22,8 @@ Topic: lab-4    TopicId: DsrapAjJS0K5WpYdueS9qw PartitionCount: 3       Replicat
         Topic: lab-4    Partition: 1    Leader: 0       Replicas: 0,2   Isr: 0,2
         Topic: lab-4    Partition: 2    Leader: 2       Replicas: 2,1   Isr: 2,1
 ```
+
+模拟Kafka集群节点宕机
 
 ```
 [root@kafka-01 kafka-3.2.3]# jps
@@ -27,9 +36,7 @@ Topic: lab-4    TopicId: DsrapAjJS0K5WpYdueS9qw PartitionCount: 3       Replicat
 4079 QuorumPeerMain
 
 [root@kafka-01 kafka-3.2.3]# kill -9 7329
-```
 
-```
 [root@kafka-01 kafka-3.2.3]# jps
 6914 Kafka
 993931 Kafka
@@ -39,6 +46,8 @@ Topic: lab-4    TopicId: DsrapAjJS0K5WpYdueS9qw PartitionCount: 3       Replicat
 4079 QuorumPeerMain
 ```
 
+默认Kafka集群提供自动均衡机制，可以查看主题分区Leader均衡后的信息
+
 ```
 [root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9093 --describe --topic lab-4
 Topic: lab-4    TopicId: DsrapAjJS0K5WpYdueS9qw PartitionCount: 3       ReplicationFactor: 2    Configs: segment.bytes=104857600
@@ -47,10 +56,14 @@ Topic: lab-4    TopicId: DsrapAjJS0K5WpYdueS9qw PartitionCount: 3       Replicat
         Topic: lab-4    Partition: 2    Leader: 1       Replicas: 2,1   Isr: 1
 ```
 
+模拟Kafka故障节点恢复上线
+
 ```
 [root@kafka-01 kafka-3.2.3]# cd ../
 [root@kafka-01 environment]# ./kafka-2.sh
 ```
+
+查看主题分区信息发现并未有所变化
 
 ```
 [root@kafka-01 environment]# cd kafka-3.2.3
@@ -61,11 +74,15 @@ Topic: lab-4    TopicId: DsrapAjJS0K5WpYdueS9qw PartitionCount: 3       Replicat
         Topic: lab-4    Partition: 2    Leader: 1       Replicas: 2,1   Isr: 1,2
 ```
 
+手动执行分区leader选举
+
 ```
 [root@kafka-01 kafka-3.2.3]# bin/kafka-leader-election.sh --bootstrap-server localhost:9093 --topic lab-4 --election-type preferred --partition 2
 Successfully completed leader election (PREFERRED) for partitions lab-4-2
 
 ```
+
+验证是否分区Leader均衡
 
 ```
 [root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9093 --describe --topic lab-4
@@ -75,20 +92,16 @@ Topic: lab-4    TopicId: DsrapAjJS0K5WpYdueS9qw PartitionCount: 3       Replicat
         Topic: lab-4    Partition: 2    Leader: 2       Replicas: 2,1   Isr: 1,2
 ```
 
-## 4.1 分区消息数据平衡
+### 场景-2
 
-场景：早期业务数据较少，在kafka集群中已经建有3分区的partition-data-migration主题，近期业务数据增长较快，导致其所在节点存储使用量快速增长,为了避免耗尽所在节点的存储资源，需要通过增加kafka节点/分区的方式来平衡消息存储。
+场景描述：早期业务数据较少，在kafka集群中已经建有3分区的partition-data-migration主题，近期业务数据增长较快，导致其所在节点存储使用量快速增长,为了避免耗尽所在节点的存储资源，需要通过增加kafka节点/分区的方式来平衡消息存储。
 
 
-创建一个单分区的主题
+创建一个3分区的主题
+
 ```
 [root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --create --bootstrap-server localhost:9093  --replication-factor 1 --partitions 3 --topic partition-data-migration
 Created topic partition-data-migration.
-```
-填充模拟数据
-
-```
-[root@kafka-01 kafka-3.2.3]# bin/kafka-verifiable-producer.sh --bootstrap-server localhost:9093 --topic partition-data-migration --max-message 100
 ```
 
 查看当前分区数据，当前分区数据主要分布在id为0、1、2三个broker节点上
