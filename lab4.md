@@ -136,12 +136,12 @@ Topic: partition-data-migration TopicId: CTWrAToVQ5me7LPEl0BJag PartitionCount: 
 ```
 [root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --alter --bootstrap-server localhost:9092 --topic partition-data-migration --partitions 5
 [root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9093 --describe --topic partition-data-migration
-Topic: partition-data-migration TopicId: CTWrAToVQ5me7LPEl0BJag PartitionCount: 5       ReplicationFactor: 1    Configs: segment.bytes=1073741824
-        Topic: partition-data-migration Partition: 0    Leader: 4       Replicas: 4     Isr: 4
+Topic: partition-data-migration TopicId: CTWrAToVQ5me7LPEl0BJag PartitionCount: 5       ReplicationFactor: 1    Configs: segment.bytes=104857600
+        Topic: partition-data-migration Partition: 0    Leader: 2       Replicas: 2     Isr: 2
         Topic: partition-data-migration Partition: 1    Leader: 0       Replicas: 0     Isr: 0
         Topic: partition-data-migration Partition: 2    Leader: 1       Replicas: 1     Isr: 1
-        Topic: partition-data-migration Partition: 3    Leader: 2       Replicas: 2     Isr: 2
-        Topic: partition-data-migration Partition: 4    Leader: 3       Replicas: 3     Isr: 3
+        Topic: partition-data-migration Partition: 3    Leader: 0       Replicas: 0     Isr: 0
+        Topic: partition-data-migration Partition: 4    Leader: 1       Replicas: 1     Isr: 1
 ```
 
 要将数据分区落盘新的kafka节点，则需要更新分区数据分配方案，这里通过工具产生分配方案，实现分区数据均衡分布在多个kafka节点上。
