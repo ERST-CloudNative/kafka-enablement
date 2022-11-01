@@ -1,0 +1,2 @@
+{"version":1,"partitions":[{"topic":"partition-data-migration","partition":0,"replicas":[4],"log_dirs":["any"]},{"topic":"partition-data-migration","partition":1,"replicas":[0],"log_dirs":["any"]},{"topic":"partition-data-migration","partition":2,"replicas":[1],"log_dirs":["any"]},{"topic":"partition-data-migration","partition":3,"replicas":[2],"log_dirs":["any"]},{"topic":"partition-data-migration","partition":4,"replicas":[3],"log_dirs":["any"]}]}
+
