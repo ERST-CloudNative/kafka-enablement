@@ -6,7 +6,7 @@
 
 ## 5.1 Kafka Connect部署
 
-部署Kafka Connect组件(分布式集群模式)
+[源集群] 部署Kafka Connect组件(分布式集群模式)
 
 ```
 [root@kafka-01 environment]# ./connect-0.sh
