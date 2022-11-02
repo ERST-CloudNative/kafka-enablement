@@ -71,7 +71,7 @@
 Created topic file-connect.
 ```
 
-创建连接器
+启动连接器
 
 ```
 [root@kafka-01 kafka-3.2.3]# curl -X POST -H "Content-Type: application/json" --data @../configs/connect/connector.json http://localhost:8083/connectors
