@@ -1,5 +1,9 @@
 # Lab5 跨集群数据迁移
 
+
+## 前置条件：
+- 两套就绪的Kafka集群
+
 ## 5.1 Kafka Connect部署
 
 部署Kafka Connect组件(分布式集群模式)
