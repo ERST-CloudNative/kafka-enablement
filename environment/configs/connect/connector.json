@@ -1,0 +1,12 @@
+{
+  "name": "local-file-source",
+  "config": {
+    "connector.class": "FileStreamSource",
+    "topic": "file-connect",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "converter.internal.key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "converter.internal.value.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "file": "/tmp/file-connect.txt"
+  }
+}
