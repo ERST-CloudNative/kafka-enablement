@@ -112,7 +112,9 @@ Topic: lab-2    TopicId: Hso8PfrASnqwSlqg7_w8NA PartitionCount: 3       Replicat
 6
 ```
 
-上面的结果看起来消息失序了，那么失序的原因是什么，我们可以通过消费每个partition的消息窥见其原理。
+> kafka只能保证Partition内部的有序，不能保证全局的有序性。 严格的全局有序可以将Partition数设为1， 所有数据写到同一个Partition中， 保证了有序性， 但是牺牲了kafka的性能。
+
+接下来，我们可以通过消费每个partition的消息验证其是否可以实现同一个分区内部是有序的。
 
 ```
 [root@kafka-01 kafka-3.2.3]#  bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic lab-2 --partition 0 --from-beginning
