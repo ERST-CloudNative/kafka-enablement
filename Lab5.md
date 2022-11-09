@@ -121,7 +121,7 @@ my-connect-cluster-status
 [源集群] 开始数据迁移与同步
 
 ```
-[root@kafka-01 kafka-3.2.3]# bin/connect-mirror-maker.sh config/connect-mirror-maker.properties
+[root@kafka-01 kafka-3.2.3]# bin/connect-mirror-maker.sh config/connect/connect-mirror-maker.properties
 ```
 
 [目标集群] 查看同步效果
