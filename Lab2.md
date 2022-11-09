@@ -144,6 +144,8 @@ Topic: lab-2    TopicId: oPXTeDrQS4OdoM4gjFDhpg PartitionCount: 3       Replicat
 [root@kafka-01 kafka-3.2.3]# bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic lab-2
 ```
 
+> 由于后续操作还需要使用lab-2的Topic,可以等完成后续操作再进行删除
+
 ## 3. consumer groups
 
 ### 3.1 查看消费组
