@@ -81,7 +81,8 @@ Dynamic configs for broker 2 are:
 
 为用户loren设置限流配置
 ```
-[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --alter --add-config 'producer_byte_rate=1024,consumer_byte_rate=2048' --entity-type useoren
+[root@kafka-01 kafka-3.2.3]# bin/kafka-configs.sh --bootstrap-server localhost:9092 --alter --add-config 'producer_byte_rate=1024,consumer_byte_rate=2048' --entity-type users --entity-name loren
+
 Completed updating config for user loren.
 ```
 
