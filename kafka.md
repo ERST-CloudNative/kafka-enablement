@@ -394,11 +394,13 @@ WantedBy = multi-user.target
 
 ```
 # systemctl restart zookeeper
+# systemctl enable zookeeper
 ```
 
 运行kafka集群
 ```
 # systemctl restart kafka
+# systemctl enable kafka
 ```
 
 验证zookeeper和kafka进程是否正常运行
