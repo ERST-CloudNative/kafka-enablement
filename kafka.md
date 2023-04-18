@@ -1,6 +1,8 @@
 ## 在OCI上部署社区版本的Kafka集群
 
 
+集群部署示意框图如下：
+
 ![image](https://user-images.githubusercontent.com/4653664/232766541-4ee44c21-08f5-4f2f-9bc0-ac8216c80021.png)
 
 
