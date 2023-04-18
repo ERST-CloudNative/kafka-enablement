@@ -1,5 +1,9 @@
 ## 在OCI上部署社区版本的Kafka集群
 
+
+![image](https://user-images.githubusercontent.com/4653664/232766541-4ee44c21-08f5-4f2f-9bc0-ac8216c80021.png)
+
+
 ### 1. 创建虚拟机
 
 这里供需要创建3台虚拟机，每台虚拟机配置为2OCPU/8GB/50GB, 虚拟机名称依次为`kafka-01`,`kafka-02`,`kafka-03`
