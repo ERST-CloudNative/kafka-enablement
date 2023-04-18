@@ -3,7 +3,8 @@
 
 Kafka集群服务部署框图如下：
 
-![image](https://user-images.githubusercontent.com/4653664/232766541-4ee44c21-08f5-4f2f-9bc0-ac8216c80021.png)
+![image](https://user-images.githubusercontent.com/4653664/232767152-355e0114-0daa-41b2-8928-317549b44b4c.png)
+
 
 
 ### 1. 创建虚拟机
