@@ -13,3 +13,9 @@
 [Lab 5 - 集群运维管理(二)-跨集群数据迁移](https://github.com/ERST-CloudNative/kafka-enablement/blob/main/Lab5.md)
 
 [Lab 6 - OCI上部署社区版kafka集群](https://github.com/ERST-CloudNative/kafka-enablement/blob/main/kafka.md)
+
+【待办】
+- 增加Kafka基本概念知识
+- 增加kafka集群扩容
+
+
