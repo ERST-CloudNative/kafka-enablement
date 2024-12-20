@@ -14,7 +14,7 @@
 
 [Lab 6 - OCI上部署社区版kafka集群](https://github.com/ERST-CloudNative/kafka-enablement/blob/main/kafka.md)
 
-【待办】
+【TODO】
 - 增加Kafka基本概念知识
   - 基础概念以及优劣势
   - 吞吐量大的原因
